@@ -1,0 +1,194 @@
+
+GccApplication1.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000ea  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000013e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000013e  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000170  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000038  00000000  00000000  000001ac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000006c5  00000000  00000000  000001e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000605  00000000  00000000  000008a9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000002c4  00000000  00000000  00000eae  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000054  00000000  00000000  00001174  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000035e  00000000  00000000  000011c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000000ae  00000000  00000000  00001526  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000028  00000000  00000000  000015d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 5d 00 	call	0xba	; 0xba <main>
+  64:	0c 94 73 00 	jmp	0xe6	; 0xe6 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <setup>:
+#define LED_MASK (1 << PC2) // PC2 for LED
+#define LED_MASK2 (1 << PC2) // PC2 for LED
+
+void setup() {
+	// Configure PA0 to PA3 as outputs for BCD input to IC
+	BCD_DDR |= BCD_MASK;
+  6c:	8a b3       	in	r24, 0x1a	; 26
+  6e:	8f 60       	ori	r24, 0x0F	; 15
+  70:	8a bb       	out	0x1a, r24	; 26
+
+	// Configure PA4 to PA7 and PB0 to PB5 as inputs to read IC outputs
+	DDRA &= ~OUTPUT_MASK_A; // Set PA4 to PA7 as inputs
+  72:	8a b3       	in	r24, 0x1a	; 26
+  74:	8f 70       	andi	r24, 0x0F	; 15
+  76:	8a bb       	out	0x1a, r24	; 26
+	DDRB &= ~OUTPUT_MASK_B; // Set PB0 to PB5 as inputs
+  78:	87 b3       	in	r24, 0x17	; 23
+  7a:	80 7c       	andi	r24, 0xC0	; 192
+  7c:	87 bb       	out	0x17, r24	; 23
+
+	// Disable pull-up resistors on input pins
+	PORTA &= ~OUTPUT_MASK_A;
+  7e:	8b b3       	in	r24, 0x1b	; 27
+  80:	8f 70       	andi	r24, 0x0F	; 15
+  82:	8b bb       	out	0x1b, r24	; 27
+	PORTB &= ~OUTPUT_MASK_B;
+  84:	88 b3       	in	r24, 0x18	; 24
+  86:	80 7c       	andi	r24, 0xC0	; 192
+  88:	88 bb       	out	0x18, r24	; 24
+
+	// Configure PC2 as an output for the LED
+	LED_DDR |= LED_MASK;
+  8a:	84 b3       	in	r24, 0x14	; 20
+  8c:	84 60       	ori	r24, 0x04	; 4
+  8e:	84 bb       	out	0x14, r24	; 20
+	LED_PORT &= ~LED_MASK; // Ensure LED is initially off
+  90:	85 b3       	in	r24, 0x15	; 21
+  92:	8b 7f       	andi	r24, 0xFB	; 251
+  94:	85 bb       	out	0x15, r24	; 21
+  96:	08 95       	ret
+
+00000098 <send_bcd>:
+}
+
+void send_bcd(uint8_t value) {
+	// Send the lower 4 bits of the value to PA0 to PA3
+	BCD_PORT = (BCD_PORT & ~BCD_MASK) | (value & BCD_MASK);
+  98:	9b b3       	in	r25, 0x1b	; 27
+  9a:	90 7f       	andi	r25, 0xF0	; 240
+  9c:	8f 70       	andi	r24, 0x0F	; 15
+  9e:	89 2b       	or	r24, r25
+  a0:	8b bb       	out	0x1b, r24	; 27
+  a2:	08 95       	ret
+
+000000a4 <read_outputs>:
+}
+
+uint8_t read_outputs() {
+	// Combine outputs from PA4 to PA7 and PB0 to PB5 into an 8-bit value
+	uint8_t high_nibble = (OUTPUT_PORT_A & OUTPUT_MASK_A) >> 4; // PA4 to PA7
+  a4:	29 b3       	in	r18, 0x19	; 25
+  a6:	22 95       	swap	r18
+  a8:	2f 70       	andi	r18, 0x0F	; 15
+	uint8_t low_nibble = (OUTPUT_PORT_B & OUTPUT_MASK_B);       // PB0 to PB5
+  aa:	86 b3       	in	r24, 0x16	; 22
+  ac:	8f 73       	andi	r24, 0x3F	; 63
+	return (high_nibble << 4) | low_nibble; // Combine high and low nibbles
+  ae:	90 e1       	ldi	r25, 0x10	; 16
+  b0:	29 9f       	mul	r18, r25
+  b2:	90 01       	movw	r18, r0
+  b4:	11 24       	eor	r1, r1
+}
+  b6:	82 2b       	or	r24, r18
+  b8:	08 95       	ret
+
+000000ba <main>:
+
+int main() {
+	setup();
+  ba:	0e 94 36 00 	call	0x6c	; 0x6c <setup>
+
+	while (1) {
+		for (uint8_t bcd = 0; bcd <= 9; bcd++) {
+  be:	c0 e0       	ldi	r28, 0x00	; 0
+  c0:	0f c0       	rjmp	.+30     	; 0xe0 <main+0x26>
+			// Send BCD value to IC
+			send_bcd(bcd);
+  c2:	8c 2f       	mov	r24, r28
+  c4:	0e 94 4c 00 	call	0x98	; 0x98 <send_bcd>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  c8:	2f ef       	ldi	r18, 0xFF	; 255
+  ca:	80 e7       	ldi	r24, 0x70	; 112
+  cc:	92 e0       	ldi	r25, 0x02	; 2
+  ce:	21 50       	subi	r18, 0x01	; 1
+  d0:	80 40       	sbci	r24, 0x00	; 0
+  d2:	90 40       	sbci	r25, 0x00	; 0
+  d4:	e1 f7       	brne	.-8      	; 0xce <main+0x14>
+  d6:	00 c0       	rjmp	.+0      	; 0xd8 <main+0x1e>
+  d8:	00 00       	nop
+			_delay_ms(100); // Delay to allow stabilization
+
+			// Read IC outputs
+			uint8_t outputs = read_outputs();
+  da:	0e 94 52 00 	call	0xa4	; 0xa4 <read_outputs>
+
+int main() {
+	setup();
+
+	while (1) {
+		for (uint8_t bcd = 0; bcd <= 9; bcd++) {
+  de:	cf 5f       	subi	r28, 0xFF	; 255
+  e0:	ca 30       	cpi	r28, 0x0A	; 10
+  e2:	78 f3       	brcs	.-34     	; 0xc2 <main+0x8>
+  e4:	ec cf       	rjmp	.-40     	; 0xbe <main+0x4>
+
+000000e6 <_exit>:
+  e6:	f8 94       	cli
+
+000000e8 <__stop_program>:
+  e8:	ff cf       	rjmp	.-2      	; 0xe8 <__stop_program>
