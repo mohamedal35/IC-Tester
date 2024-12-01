@@ -1,4 +1,4 @@
-#include "ics_conf.h"
+#include "ics_conf.c"
 
 int main() {
 	// Run the IC 7442 test

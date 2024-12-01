@@ -3,29 +3,29 @@ GccApplication1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000ea  00000000  00000000  00000054  2**1
+  0 .text         00000102  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  0000013e  2**0
+  1 .data         00000000  00800060  00800060  00000156  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  0000013e  2**0
+  2 .comment      00000030  00000000  00000000  00000156  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000170  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000188  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000038  00000000  00000000  000001ac  2**0
+  4 .debug_aranges 00000028  00000000  00000000  000001c4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000006c5  00000000  00000000  000001e4  2**0
+  5 .debug_info   00000663  00000000  00000000  000001ec  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000605  00000000  00000000  000008a9  2**0
+  6 .debug_abbrev 000005a3  00000000  00000000  0000084f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002c4  00000000  00000000  00000eae  2**0
+  7 .debug_line   000002b4  00000000  00000000  00000df2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000054  00000000  00000000  00001174  2**2
+  8 .debug_frame  00000034  00000000  00000000  000010a8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000035e  00000000  00000000  000011c8  2**0
+  9 .debug_str    0000034c  00000000  00000000  000010dc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000000ae  00000000  00000000  00001526  2**0
+ 10 .debug_loc    000000a0  00000000  00000000  00001428  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  000015d4  2**0
+ 11 .debug_ranges 00000018  00000000  00000000  000014c8  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -60,34 +60,31 @@ Disassembly of section .text:
   5a:	d8 e0       	ldi	r29, 0x08	; 8
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 5d 00 	call	0xba	; 0xba <main>
-  64:	0c 94 73 00 	jmp	0xe6	; 0xe6 <_exit>
+  60:	0e 94 7d 00 	call	0xfa	; 0xfa <main>
+  64:	0c 94 7f 00 	jmp	0xfe	; 0xfe <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-0000006c <setup>:
-#define LED_MASK (1 << PC2) // PC2 for LED
-#define LED_MASK2 (1 << PC2) // PC2 for LED
+0000006c <IC_7442>:
+#include "ics_conf.h"
+#include <util/delay.h>
 
-void setup() {
-	// Configure PA0 to PA3 as outputs for BCD input to IC
+void IC_7442() {
 	BCD_DDR |= BCD_MASK;
   6c:	8a b3       	in	r24, 0x1a	; 26
   6e:	8f 60       	ori	r24, 0x0F	; 15
   70:	8a bb       	out	0x1a, r24	; 26
+	
 
-	// Configure PA4 to PA7 and PB0 to PB5 as inputs to read IC outputs
-	DDRA &= ~OUTPUT_MASK_A; // Set PA4 to PA7 as inputs
+	DDRA &= ~OUTPUT_MASK_A;
   72:	8a b3       	in	r24, 0x1a	; 26
   74:	8f 70       	andi	r24, 0x0F	; 15
   76:	8a bb       	out	0x1a, r24	; 26
-	DDRB &= ~OUTPUT_MASK_B; // Set PB0 to PB5 as inputs
+	DDRB &= ~OUTPUT_MASK_B;
   78:	87 b3       	in	r24, 0x17	; 23
   7a:	80 7c       	andi	r24, 0xC0	; 192
   7c:	87 bb       	out	0x17, r24	; 23
-
-	// Disable pull-up resistors on input pins
 	PORTA &= ~OUTPUT_MASK_A;
   7e:	8b b3       	in	r24, 0x1b	; 27
   80:	8f 70       	andi	r24, 0x0F	; 15
@@ -96,99 +93,104 @@ void setup() {
   84:	88 b3       	in	r24, 0x18	; 24
   86:	80 7c       	andi	r24, 0xC0	; 192
   88:	88 bb       	out	0x18, r24	; 24
-
-	// Configure PC2 as an output for the LED
 	LED_DDR |= LED_MASK;
   8a:	84 b3       	in	r24, 0x14	; 20
   8c:	84 60       	ori	r24, 0x04	; 4
   8e:	84 bb       	out	0x14, r24	; 20
-	LED_PORT &= ~LED_MASK; // Ensure LED is initially off
+	LED_PORT &= ~LED_MASK; 
   90:	85 b3       	in	r24, 0x15	; 21
   92:	8b 7f       	andi	r24, 0xFB	; 251
   94:	85 bb       	out	0x15, r24	; 21
-  96:	08 95       	ret
-
-00000098 <send_bcd>:
-}
-
-void send_bcd(uint8_t value) {
-	// Send the lower 4 bits of the value to PA0 to PA3
-	BCD_PORT = (BCD_PORT & ~BCD_MASK) | (value & BCD_MASK);
-  98:	9b b3       	in	r25, 0x1b	; 27
-  9a:	90 7f       	andi	r25, 0xF0	; 240
-  9c:	8f 70       	andi	r24, 0x0F	; 15
-  9e:	89 2b       	or	r24, r25
-  a0:	8b bb       	out	0x1b, r24	; 27
-  a2:	08 95       	ret
-
-000000a4 <read_outputs>:
-}
-
-uint8_t read_outputs() {
-	// Combine outputs from PA4 to PA7 and PB0 to PB5 into an 8-bit value
-	uint8_t high_nibble = (OUTPUT_PORT_A & OUTPUT_MASK_A) >> 4; // PA4 to PA7
-  a4:	29 b3       	in	r18, 0x19	; 25
-  a6:	22 95       	swap	r18
-  a8:	2f 70       	andi	r18, 0x0F	; 15
-	uint8_t low_nibble = (OUTPUT_PORT_B & OUTPUT_MASK_B);       // PB0 to PB5
-  aa:	86 b3       	in	r24, 0x16	; 22
-  ac:	8f 73       	andi	r24, 0x3F	; 63
-	return (high_nibble << 4) | low_nibble; // Combine high and low nibbles
-  ae:	90 e1       	ldi	r25, 0x10	; 16
-  b0:	29 9f       	mul	r18, r25
-  b2:	90 01       	movw	r18, r0
-  b4:	11 24       	eor	r1, r1
-}
-  b6:	82 2b       	or	r24, r18
-  b8:	08 95       	ret
-
-000000ba <main>:
-
-int main() {
-	setup();
-  ba:	0e 94 36 00 	call	0x6c	; 0x6c <setup>
 
 	while (1) {
 		for (uint8_t bcd = 0; bcd <= 9; bcd++) {
-  be:	c0 e0       	ldi	r28, 0x00	; 0
-  c0:	0f c0       	rjmp	.+30     	; 0xe0 <main+0x26>
-			// Send BCD value to IC
-			send_bcd(bcd);
-  c2:	8c 2f       	mov	r24, r28
-  c4:	0e 94 4c 00 	call	0x98	; 0x98 <send_bcd>
+  96:	40 e0       	ldi	r20, 0x00	; 0
+  98:	2d c0       	rjmp	.+90     	; 0xf4 <IC_7442+0x88>
+
+			BCD_PORT = (BCD_PORT & ~BCD_MASK) | (bcd & BCD_MASK);
+  9a:	8b b3       	in	r24, 0x1b	; 27
+  9c:	80 7f       	andi	r24, 0xF0	; 240
+  9e:	94 2f       	mov	r25, r20
+  a0:	9f 70       	andi	r25, 0x0F	; 15
+  a2:	89 2b       	or	r24, r25
+  a4:	8b bb       	out	0x1b, r24	; 27
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  c8:	2f ef       	ldi	r18, 0xFF	; 255
-  ca:	80 e7       	ldi	r24, 0x70	; 112
-  cc:	92 e0       	ldi	r25, 0x02	; 2
-  ce:	21 50       	subi	r18, 0x01	; 1
-  d0:	80 40       	sbci	r24, 0x00	; 0
-  d2:	90 40       	sbci	r25, 0x00	; 0
-  d4:	e1 f7       	brne	.-8      	; 0xce <main+0x14>
-  d6:	00 c0       	rjmp	.+0      	; 0xd8 <main+0x1e>
-  d8:	00 00       	nop
-			_delay_ms(100); // Delay to allow stabilization
+  a6:	2f ef       	ldi	r18, 0xFF	; 255
+  a8:	50 e7       	ldi	r21, 0x70	; 112
+  aa:	82 e0       	ldi	r24, 0x02	; 2
+  ac:	21 50       	subi	r18, 0x01	; 1
+  ae:	50 40       	sbci	r21, 0x00	; 0
+  b0:	80 40       	sbci	r24, 0x00	; 0
+  b2:	e1 f7       	brne	.-8      	; 0xac <IC_7442+0x40>
+  b4:	00 c0       	rjmp	.+0      	; 0xb6 <IC_7442+0x4a>
+  b6:	00 00       	nop
+			
+			_delay_ms(100);
+			
 
-			// Read IC outputs
-			uint8_t outputs = read_outputs();
-  da:	0e 94 52 00 	call	0xa4	; 0xa4 <read_outputs>
-
-int main() {
-	setup();
+			uint8_t high_nibble = (OUTPUT_PORT_A & OUTPUT_MASK_A) >> 4;
+  b8:	29 b3       	in	r18, 0x19	; 25
+  ba:	92 2f       	mov	r25, r18
+  bc:	92 95       	swap	r25
+  be:	9f 70       	andi	r25, 0x0F	; 15
+			uint8_t low_nibble = (OUTPUT_PORT_B & OUTPUT_MASK_B);
+  c0:	26 b3       	in	r18, 0x16	; 22
+  c2:	82 2f       	mov	r24, r18
+  c4:	8f 73       	andi	r24, 0x3F	; 63
+			uint8_t outputs = (high_nibble << 4) | low_nibble;
+  c6:	50 e1       	ldi	r21, 0x10	; 16
+  c8:	95 9f       	mul	r25, r21
+  ca:	90 01       	movw	r18, r0
+  cc:	11 24       	eor	r1, r1
+  ce:	28 2b       	or	r18, r24
+			
+			if ((outputs & (1 << bcd)) != 0) {
+  d0:	82 2f       	mov	r24, r18
+  d2:	90 e0       	ldi	r25, 0x00	; 0
+  d4:	04 2e       	mov	r0, r20
+  d6:	02 c0       	rjmp	.+4      	; 0xdc <IC_7442+0x70>
+  d8:	95 95       	asr	r25
+  da:	87 95       	ror	r24
+  dc:	0a 94       	dec	r0
+  de:	e2 f7       	brpl	.-8      	; 0xd8 <IC_7442+0x6c>
+  e0:	80 ff       	sbrs	r24, 0
+  e2:	04 c0       	rjmp	.+8      	; 0xec <IC_7442+0x80>
+				LED_PORT |= LED_MASK;
+  e4:	85 b3       	in	r24, 0x15	; 21
+  e6:	84 60       	ori	r24, 0x04	; 4
+  e8:	85 bb       	out	0x15, r24	; 21
+  ea:	03 c0       	rjmp	.+6      	; 0xf2 <IC_7442+0x86>
+				} else {
+				LED_PORT &= ~LED_MASK;
+  ec:	85 b3       	in	r24, 0x15	; 21
+  ee:	8b 7f       	andi	r24, 0xFB	; 251
+  f0:	85 bb       	out	0x15, r24	; 21
+	PORTB &= ~OUTPUT_MASK_B;
+	LED_DDR |= LED_MASK;
+	LED_PORT &= ~LED_MASK; 
 
 	while (1) {
 		for (uint8_t bcd = 0; bcd <= 9; bcd++) {
-  de:	cf 5f       	subi	r28, 0xFF	; 255
-  e0:	ca 30       	cpi	r28, 0x0A	; 10
-  e2:	78 f3       	brcs	.-34     	; 0xc2 <main+0x8>
-  e4:	ec cf       	rjmp	.-40     	; 0xbe <main+0x4>
+  f2:	4f 5f       	subi	r20, 0xFF	; 255
+  f4:	4a 30       	cpi	r20, 0x0A	; 10
+  f6:	88 f2       	brcs	.-94     	; 0x9a <IC_7442+0x2e>
+  f8:	ce cf       	rjmp	.-100    	; 0x96 <IC_7442+0x2a>
 
-000000e6 <_exit>:
-  e6:	f8 94       	cli
+000000fa <main>:
+#include "ics_conf.c"
 
-000000e8 <__stop_program>:
-  e8:	ff cf       	rjmp	.-2      	; 0xe8 <__stop_program>
+int main() {
+	// Run the IC 7442 test
+	IC_7442();
+  fa:	0e 94 36 00 	call	0x6c	; 0x6c <IC_7442>
+
+000000fe <_exit>:
+  fe:	f8 94       	cli
+
+00000100 <__stop_program>:
+ 100:	ff cf       	rjmp	.-2      	; 0x100 <__stop_program>

@@ -1,5 +1,5 @@
-#ifndef CONF_H
-#define CONF_H
+#ifndef ICS_CONF_H
+#define ICS_CONF_H
 
 #include <avr/io.h>
 
@@ -25,4 +25,4 @@
 // Function Prototypes
 extern void IC_7442(void);
 
-#endif // IC_7442_H
+#endif // ICS_CONF_H

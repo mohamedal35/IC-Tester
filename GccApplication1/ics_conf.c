@@ -1,4 +1,4 @@
-#include "ic_7442.h"
+#include "ics_conf.h"
 #include <util/delay.h>
 
 void IC_7442() {
