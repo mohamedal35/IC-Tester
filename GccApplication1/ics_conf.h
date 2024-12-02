@@ -23,6 +23,6 @@
 #define LED_MASK (1 << PC2) // PC2 for LED
 
 // Function Prototypes
-extern void IC_7442(void);
+extern int IC_7442(void);
 
 #endif // ICS_CONF_H

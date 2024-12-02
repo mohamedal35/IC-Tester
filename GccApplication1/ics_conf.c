@@ -1,7 +1,9 @@
 #include "ics_conf.h"
 #include <util/delay.h>
 
-void IC_7442() {
+#include <stdio.h>
+#include <string.h>
+int IC_7442() {
 	BCD_DDR |= BCD_MASK;
 	
 
@@ -11,24 +13,37 @@ void IC_7442() {
 	PORTB &= ~OUTPUT_MASK_B;
 	LED_DDR |= LED_MASK;
 	LED_PORT &= ~LED_MASK; 
+	
+	uint8_t passed = 1;
+	for (uint8_t bcd = 0; bcd <= 9; bcd++) {
 
-	while (1) {
-		for (uint8_t bcd = 0; bcd <= 9; bcd++) {
-
-			BCD_PORT = (BCD_PORT & ~BCD_MASK) | (bcd & BCD_MASK);
+		BCD_PORT = (BCD_PORT & ~BCD_MASK) | (bcd & BCD_MASK);
 			
-			_delay_ms(100);
+		_delay_ms(100);
 			
 
-			uint8_t high_nibble = (OUTPUT_PORT_A & OUTPUT_MASK_A) >> 4;
-			uint8_t low_nibble = (OUTPUT_PORT_B & OUTPUT_MASK_B);
-			uint8_t outputs = (high_nibble << 4) | low_nibble;
+		
+	    uint8_t low_nibble = (OUTPUT_PORT_A & OUTPUT_MASK_A) >> 4; // Extract PA4-PA7
+	    uint8_t high_nibble = (OUTPUT_PORT_B & OUTPUT_MASK_B);     // Extract PB0-PB5
+	    uint8_t outputs = (high_nibble << 4) | low_nibble;         // Combine outputs (high nibble << 4)
+		// 
+		uint8_t expected = (~(1 << bcd)); // All bits 1 except the active one (active low)
+		if (outputs != expected) {
 			
-			if ((outputs & (1 << bcd)) != 0) {
-				LED_PORT |= LED_MASK;
-				} else {
-				LED_PORT &= ~LED_MASK;
-			}
+			char baseStr[50] = "expected:";
+			char intStr[20];
+			sprintf(intStr, "%d", expected); // Convert the integer to a string
+			strcat(baseStr, intStr);
+			
+			twi_init();
+			twi_lcd_init();
+			twi_lcd_msg(baseStr);
+			
+			passed = 0;
+			break;
 		}
 	}
+	
+	return passed;
+	
 }
