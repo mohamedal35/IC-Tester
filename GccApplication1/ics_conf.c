@@ -46,7 +46,7 @@ int IC_7442() {
 			uint16_t expected = bcd_decoder_active_low(count);
 			count++;
 
-			if (count > 9) {
+			if (count > 10) {
 				break;
 			}
 

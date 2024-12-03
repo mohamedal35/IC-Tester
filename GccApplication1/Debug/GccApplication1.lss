@@ -578,8 +578,8 @@ int IC_7442() {
 			count++;
  31c:	cf 5f       	subi	r28, 0xFF	; 255
 
-			if (count > 9) {
- 31e:	ca 30       	cpi	r28, 0x0A	; 10
+			if (count > 10) {
+ 31e:	cb 30       	cpi	r28, 0x0B	; 11
  320:	08 f5       	brcc	.+66     	; 0x364 <IC_7442+0x86>
  322:	2f ef       	ldi	r18, 0xFF	; 255
  324:	83 ec       	ldi	r24, 0xC3	; 195
