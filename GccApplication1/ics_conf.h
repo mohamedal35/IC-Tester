@@ -24,5 +24,5 @@
 
 // Function Prototypes
 extern int IC_7442(void);
-
+extern int IC_7421(void);
 #endif // ICS_CONF_H
