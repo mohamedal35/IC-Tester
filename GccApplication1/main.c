@@ -6,7 +6,7 @@
 
 int main() {
 	    // Create an array of function pointers
-	int (*ICsfunctionsArray[])() = {IC_7442, IC_7421};
+	int (*ICsfunctionsArray[])() = {IC_7442, IC_7421, IC_7494};
 
 	// Determine the size of the array
 	uint8_t numFunctions = sizeof(ICsfunctionsArray) / sizeof(ICsfunctionsArray[0]);
@@ -28,6 +28,12 @@ int main() {
 					twi_init();
 					twi_lcd_init();
 					twi_lcd_msg("found: 7421 IC");
+					_delay_ms(500);
+				}else if (i == 2) {
+					found = 1;
+					twi_init();
+					twi_lcd_init();
+					twi_lcd_msg("found: 7492 IC");
 					_delay_ms(500);
 				}
 			}

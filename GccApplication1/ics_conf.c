@@ -162,3 +162,117 @@ int IC_7421() {
 	}
 	return passed;
 }
+int IC_7494() {
+	
+	// Configure PB0, PB4, PB5, PB6, PA0, PA4 as output
+	DDRB |= (1 << PB0) | (1 << PB4) | (1 << PB5) | (1 << PB6);  // Set PB0, PB4, PB5, PB6 as output
+	DDRA |= (1 << PA0) | (1 << PA4);                            // Set PA0, PA4 as output
+
+	// Configure PA5, PA6, PA2, PA3 as input
+	DDRA &= ~((1 << PA5) | (1 << PA6) | (1 << PA2) | (1 << PA3));  // Clear PA5, PA6, PA2, PA3 bits for input
+
+	// Optional: Enable internal pull-up resistors for input pins
+	PORTA |= (1 << PA5) | (1 << PA6) | (1 << PA2) | (1 << PA3);
+	
+	uint8_t passed = 1;
+
+	// Set PA4 to 0 (output low)
+	PORTA &= ~(1 << PA4);
+	
+	_delay_ms(10);
+	PORTA |= (1 << PA0);
+	PORTB |= (1 << PB0);
+	_delay_ms(10);
+
+
+	// Set PB4 to 1 (output high)
+	PORTB |= (1 << PB4);
+	_delay_ms(10);
+
+	// Apply 1 to PB5 and PB6
+	PORTB |= (1 << PB5) | (1 << PB6);
+	
+	_delay_ms(10);
+
+	// Immediately apply 0 to PB5 and PB6
+	PORTB &= ~((1 << PB5) | (1 << PB6));
+
+	// Small delay
+	_delay_ms(500);
+
+	// Read inputs from PA5, PA6, PA2, PA3
+	uint8_t input_state = PINA & ((1 << PA5) | (1 << PA6) | (1 << PA2) | (1 << PA3));
+
+	// Check if all inputs are 0
+	if (input_state != 0)
+	{
+		passed = 0;
+	}
+	if (!passed) {
+		return passed;
+	}
+	
+	_delay_ms(10);
+	// Set PA0 low, then high, and check PA2
+	PORTA &= ~(1 << PA0);  // Set PA0 to low
+	_delay_ms(10);
+	PORTA |= (1 << PA0);   // Set PA0 to high
+
+	_delay_ms(100);
+	
+	// Check the state of PA2
+	if (!(PINA & (1 << PA2)))
+	{
+		// PA2 is LOW
+		passed = 0;
+	}
+	
+	if (!passed) {
+		return passed;
+	}
+	
+    uint8_t combined_value;
+	
+	for (uint8_t i = 0; i < 3; i++) {
+		// PA3PA5PA6
+		// Read the combined value of PA3, PA5, PA6
+		combined_value = ((PINA & (1 << PA3)) >> PA3) |
+		((PINA & (1 << PA5)) >> (PA5 - 1)) |
+		((PINA & (1 << PA6)) >> (PA6 - 2));
+		
+		if (combined_value != i)
+		{
+			passed = 0;
+		}
+		_delay_ms(10);
+		PORTB &= ~(1 << PB0);
+		_delay_ms(10);
+		PORTB |= (1 << PB0);
+	
+	}
+	if (!passed) {
+		return passed;
+	}
+	
+	for (uint8_t i = 4; i < 7; i++) {
+		// PA3PA5PA6
+		// Read the combined value of PA3, PA5, PA6
+		combined_value = ((PINA & (1 << PA3)) >> PA3) |
+		((PINA & (1 << PA5)) >> (PA5 - 1)) |
+		((PINA & (1 << PA6)) >> (PA6 - 2));
+			
+		if (combined_value != i)
+		{
+			passed = 0;
+		}
+		_delay_ms(10);
+		PORTB &= ~(1 << PB0);
+		_delay_ms(10);
+		PORTB |= (1 << PB0);
+			
+	}
+	if (!passed) {
+		return passed;
+	}
+	return passed;
+}

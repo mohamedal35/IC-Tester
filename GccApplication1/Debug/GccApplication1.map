@@ -196,7 +196,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x5e8
+.text           0x00000000      0x7f4
  *(.vectors)
  .vectors       0x00000000       0x54 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
                 0x00000000                __vector_default
@@ -278,71 +278,73 @@ END GROUP
                 0x0000008e                __vector_20
                 0x00000092                . = ALIGN (0x2)
  *(.text.*)
+ .text.IC_7494  0x00000092      0x1dc main.o
+                0x00000092                IC_7494
  .text.twi_stop
-                0x00000092        0x6 main.o
-                0x00000092                twi_stop
+                0x0000026e        0x6 main.o
+                0x0000026e                twi_stop
  .text.usart_init
-                0x00000098       0x10 main.o
-                0x00000098                usart_init
+                0x00000274       0x10 main.o
+                0x00000274                usart_init
  .text.usart_tx
-                0x000000a8        0x8 main.o
-                0x000000a8                usart_tx
+                0x00000284        0x8 main.o
+                0x00000284                usart_tx
  .text.usart_msg
-                0x000000b0       0x1a main.o
-                0x000000b0                usart_msg
+                0x0000028c       0x1a main.o
+                0x0000028c                usart_msg
  .text.twi_init
-                0x000000ca       0x32 main.o
-                0x000000ca                twi_init
+                0x000002a6       0x32 main.o
+                0x000002a6                twi_init
  .text.twi_start
-                0x000000fc       0x22 main.o
-                0x000000fc                twi_start
+                0x000002d8       0x22 main.o
+                0x000002d8                twi_start
  .text.twi_write_cmd
-                0x0000011e       0x24 main.o
-                0x0000011e                twi_write_cmd
+                0x000002fa       0x24 main.o
+                0x000002fa                twi_write_cmd
  .text.twi_write_dwr
-                0x00000142       0x24 main.o
-                0x00000142                twi_write_dwr
+                0x0000031e       0x24 main.o
+                0x0000031e                twi_write_dwr
  .text.PCF8574_write
-                0x00000166       0x1c main.o
-                0x00000166                PCF8574_write
+                0x00000342       0x1c main.o
+                0x00000342                PCF8574_write
  .text.twi_lcd_4bit_send
-                0x00000182       0x74 main.o
-                0x00000182                twi_lcd_4bit_send
+                0x0000035e       0x74 main.o
+                0x0000035e                twi_lcd_4bit_send
  .text.twi_lcd_cmd
-                0x000001f6       0x18 main.o
-                0x000001f6                twi_lcd_cmd
+                0x000003d2       0x18 main.o
+                0x000003d2                twi_lcd_cmd
  .text.twi_lcd_dwr
-                0x0000020e       0x1c main.o
-                0x0000020e                twi_lcd_dwr
+                0x000003ea       0x1c main.o
+                0x000003ea                twi_lcd_dwr
  .text.twi_lcd_msg
-                0x0000022a       0x1a main.o
-                0x0000022a                twi_lcd_msg
+                0x00000406       0x1a main.o
+                0x00000406                twi_lcd_msg
  .text.twi_lcd_clear
-                0x00000244        0x8 main.o
-                0x00000244                twi_lcd_clear
+                0x00000420        0x8 main.o
+                0x00000420                twi_lcd_clear
  .text.twi_lcd_init
-                0x0000024c       0x6e main.o
-                0x0000024c                twi_lcd_init
+                0x00000428       0x6e main.o
+                0x00000428                twi_lcd_init
  .text.bcd_decoder_active_low
-                0x000002ba       0x24 main.o
-                0x000002ba                bcd_decoder_active_low
- .text.IC_7442  0x000002de       0x92 main.o
-                0x000002de                IC_7442
+                0x00000496       0x24 main.o
+                0x00000496                bcd_decoder_active_low
+ .text.IC_7442  0x000004ba       0x92 main.o
+                0x000004ba                IC_7442
  .text.calculate_and
-                0x00000370       0x62 main.o
-                0x00000370                calculate_and
+                0x0000054c       0x62 main.o
+                0x0000054c                calculate_and
  .text.calculate_and2
-                0x000003d2       0x30 main.o
-                0x000003d2                calculate_and2
- .text.IC_7421  0x00000402      0x120 main.o
-                0x00000402                IC_7421
- .text.main     0x00000522       0xc2 main.o
-                0x00000522                main
-                0x000005e4                . = ALIGN (0x2)
+                0x000005ae       0x30 main.o
+                0x000005ae                calculate_and2
+ .text.IC_7421  0x000005de      0x120 main.o
+                0x000005de                IC_7421
+ .text.main     0x000006fe       0xf2 main.o
+                0x000006fe                main
+                0x000007f0                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000005e4        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x000005e4                _exit
-                0x000005e4                exit
+ .fini9         0x000007f0        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x000007f0                _exit
+                0x000007f0                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -361,42 +363,42 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000005e4        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x000007f0        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000005e8                _etext = .
+                0x000007f4                _etext = .
 
-.data           0x00800060       0xbc load address 0x000005e8
+.data           0x00800060       0xd0 load address 0x000007f4
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  *(.gnu.linkonce.d*)
  *(.rodata)
+ .rodata        0x00800060        0x6 main.o
  *(.rodata*)
  .rodata.str1.1
-                0x00800060       0xbb main.o
-                                 0xc6 (size before relaxing)
+                0x00800066       0xca main.o
+                                 0xd5 (size before relaxing)
  *(.gnu.linkonce.r*)
-                0x0080011c                . = ALIGN (0x2)
- *fill*         0x0080011b        0x1 
-                0x0080011c                _edata = .
-                0x0080011c                PROVIDE (__data_end, .)
+                0x00800130                . = ALIGN (0x2)
+                0x00800130                _edata = .
+                0x00800130                PROVIDE (__data_end, .)
 
-.bss            0x0080011c        0x1
-                0x0080011c                PROVIDE (__bss_start, .)
+.bss            0x00800130        0x1
+                0x00800130                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.lcd       0x0080011c        0x1 main.o
-                0x0080011c                lcd
+ .bss.lcd       0x00800130        0x1 main.o
+                0x00800130                lcd
  *(COMMON)
-                0x0080011d                PROVIDE (__bss_end, .)
-                0x000005e8                __data_load_start = LOADADDR (.data)
-                0x000006a4                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800131                PROVIDE (__bss_end, .)
+                0x000007f4                __data_load_start = LOADADDR (.data)
+                0x000008c4                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080011d        0x0
+.noinit         0x00800131        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x0080011d                _end = .
+                0x00800131                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -461,42 +463,42 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xe0
+.debug_aranges  0x00000000       0xe8
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0xe0 main.o
+                0x00000000       0xe8 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x1209
+.debug_info     0x00000000     0x158d
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x4e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
- .debug_info    0x000004e6      0xd23 main.o
+ .debug_info    0x000004e6     0x10a7 main.o
 
-.debug_abbrev   0x00000000      0x753
+.debug_abbrev   0x00000000      0x791
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x4a3 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
- .debug_abbrev  0x000004a3      0x2b0 main.o
+ .debug_abbrev  0x000004a3      0x2ee main.o
 
-.debug_line     0x00000000      0x98d
+.debug_line     0x00000000      0xba6
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x116 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
- .debug_line    0x00000116      0x877 main.o
+ .debug_line    0x00000116      0xa90 main.o
 
-.debug_frame    0x00000000      0x208
+.debug_frame    0x00000000      0x218
  *(.debug_frame)
- .debug_frame   0x00000000      0x208 main.o
+ .debug_frame   0x00000000      0x218 main.o
 
-.debug_str      0x00000000      0x523
+.debug_str      0x00000000      0x546
  *(.debug_str)
  .debug_str     0x00000000      0x196 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
- .debug_str     0x00000196      0x38d main.o
-                                0x3d7 (size before relaxing)
+ .debug_str     0x00000196      0x3b0 main.o
+                                0x3fa (size before relaxing)
 
-.debug_loc      0x00000000      0xb99
+.debug_loc      0x00000000      0xffa
  *(.debug_loc)
- .debug_loc     0x00000000      0xb99 main.o
+ .debug_loc     0x00000000      0xffa main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -516,9 +518,9 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x130
+.debug_ranges   0x00000000      0x168
  *(.debug_ranges)
- .debug_ranges  0x00000000      0x130 main.o
+ .debug_ranges  0x00000000      0x168 main.o
 
 .debug_macro
  *(.debug_macro)
